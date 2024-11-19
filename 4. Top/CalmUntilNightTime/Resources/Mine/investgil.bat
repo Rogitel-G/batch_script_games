@@ -1,0 +1,43 @@
+:START
+SET /a MOREDWARFSLOTS = %DWARFSLOTS% + 1
+SET /a MOREDWARFPRICE = %MOREDWARFSLOTS%*%COSTPEREXTRADWARF%
+CLS
+ECHO.
+ECHO Dwarf Sultan: What would you like to invest in?
+ECHO.
+ECHO You have %PLAYERGIL% Gil
+ECHO.
+IF %DWARFSLOTS% LEQ 9 (
+	IF %DWARFSLOTS% EQU 0 (
+		CALL :MOREDWARFDISPLAYSINGLE
+	) ELSE (
+		CALL :MOREDWARFDISPLAYMULTIPLE
+	)
+)
+ECHO. 2 - Better dwarven training programs
+ECHO. 3 - Expand the mine
+ECHO. 0 - Back
+ECHO.
+:CHOICE
+SET /P CHOICE=
+ECHO.
+IF "%CHOICE%" EQU "1" (
+	CALL "%MINERESOURCEPATH%\investmoredwarves.bat"
+) ELSE IF "%CHOICE%" EQU "2" (
+	CALL "%MINERESOURCEPATH%\investbettertraining.bat"
+) ELSE IF "%CHOICE%" EQU "3" (
+	CALL "%MINERESOURCEPATH%\investmorestrategies.bat"
+) ELSE IF "%CHOICE%" EQU "0" (
+	GOTO :EOF
+) ELSE (
+	GOTO :CHOICE
+)
+GOTO :START
+
+:MOREDWARFDISPLAYSINGLE
+ECHO. 1 - Sleeping quarters for more dwarves   (%MOREDWARFPRICE% for %MOREDWARFSLOTS% dwarf)
+GOTO :EOF
+
+:MOREDWARFDISPLAYMULTIPLE
+ECHO. 1 - Sleeping quarters for more dwarves   (%MOREDWARFPRICE% for %MOREDWARFSLOTS% dwarves)
+GOTO :EOF

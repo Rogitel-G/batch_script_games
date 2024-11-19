@@ -1,0 +1,12 @@
+IF %MUSICENABLED% EQU 0 (
+	GOTO :EOF
+)
+CALL :POWERSHELL
+GOTO :EOF
+
+:POWERSHELL
+tasklist /FI "IMAGENAME EQ cmd.exe" 2>NUL | find /I /N "cmd.exe">NUL
+IF "%ERRORLEVEL%" EQU "0" (
+	taskkill /FI "WINDOWTITLE eq MUSIC" > nul
+)
+GOTO :EOF

@@ -1,0 +1,81 @@
+CALL :NULLVALUES
+CALL :CALCULATIONS
+CALL :LIMITBREAKDISPLAY
+GOTO :EOF
+
+:NULLVALUES
+SET /a COUNT = 0
+:LOOP0
+SET /a COUNT = %COUNT% + 1
+SET /a LIMITBREAK%COUNT%SKILLTOT = 0
+IF %COUNT% LSS %LIMITBREAKTOT% (
+	GOTO :LOOP0
+)
+GOTO :EOF
+
+:CALCULATIONS
+SET /a COUNT = 0
+:LOOP1
+SET /a COUNT = %COUNT% + 1
+SET /a TEMP = !SKILL%COUNT%LIMITBREAK!
+SET /a LIMITBREAK%TEMP%SKILLTOT = !LIMITBREAK%TEMP%SKILLTOT! + 1
+SET /a LIMITBREAK%TEMP%SKILL!LIMITBREAK%TEMP%SKILLTOT! = %COUNT%
+IF %COUNT% LSS %SKILLTOT% (
+	GOTO :LOOP1
+)
+CALL "%DYNAMICRESOURCEPATH%\dynamiclimitbreak.bat"
+SET /a SELECTED = 1
+SET /a BACK = 0
+GOTO :EOF
+
+
+:LIMITBREAKDISPLAY
+CLS
+ECHO.
+ECHO Limit breaks are determined by the skills used in each battle. 
+ECHO Each skill used will increase the associated limit break counter by 1. 
+ECHO.
+ECHO When a limit break is unleashed, the two highest counters will determine which limit break moves are used.
+ECHO.
+ECHO Here are the limit breaks you've used and the skills that contribute to them in battle.
+ECHO Use more limit breaks and unlock more skills to populate this list.
+ECHO.
+CALL "%MISCRESOURCEPATH%\menu2.bat"
+IF %BACK% EQU 1 (
+	GOTO :EOF
+)
+IF %VARSELECTED% EQU 0 (
+	GOTO :LIMITBREAKDISPLAY
+) ELSE (
+	GOTO :EOF
+)
+
+
+
+
+
+
+
+
+
+
+
+
+:TEST
+SET /a COUNT = 0
+:DISPLAYLOOP
+SET /a COUNT = %COUNT% + 1
+ECHO. !LIMITBREAK%COUNT%NAME!
+SET /a TEMPCOUNT = 0
+:DISPLAYLOOP2
+SET /a TEMPCOUNT = %TEMPCOUNT% + 1
+SET TEMP=!LIMITBREAK%COUNT%SKILL%TEMPCOUNT%!
+ECHO.  !SKILL%TEMP%NAME!
+IF %TEMPCOUNT% LSS !LIMITBREAK%COUNT%SKILLTOT! (
+	GOTO :DISPLAYLOOP2
+) ELSE IF %COUNT% LSS %LIMITBREAKTOT% (
+	ECHO.
+	GOTO :DISPLAYLOOP
+)
+pause
+GOTO :EOF

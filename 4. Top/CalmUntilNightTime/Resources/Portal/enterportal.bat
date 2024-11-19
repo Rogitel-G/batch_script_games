@@ -1,0 +1,44 @@
+CALL :SETLOCATION
+CLS
+ECHO.
+CALL :START%PORTALOPENED%
+GOTO :EOF
+
+:START0
+IF !PLAYERKEYITEM%MAGSTONE1ID%ACQUIRED! EQU 0 (
+	ECHO I don't even have the !KEYITEM%MAGSTONE1ID%NAME! yet, I've got no chance of opening the portal
+	ECHO Maybe I should look in the mine...
+	CALL :WAITFORTHREE
+) ELSE IF !PLAYERKEYITEM%MAGSTONE2ID%ACQUIRED! EQU 0 (
+	ECHO I don't even have the !KEYITEM%MAGSTONE2ID%NAME! yet, I've got no chance of opening the portal
+	ECHO Maybe I should look in the lake...
+	CALL :WAITFORTHREE
+) ELSE IF !PLAYERKEYITEM%MAGSTONE3ID%ACQUIRED! EQU 0 (
+	ECHO I don't even have the !KEYITEM%MAGSTONE3ID%NAME! yet, I've got no chance of opening the portal
+	ECHO Maybe I should look in the forest...
+	CALL :WAITFORTHREE
+) ELSE (
+	CALL "%PORTALRESOURCEPATH%\openportal.bat"
+	CALL :START1
+	SET /a EXITMAP = 1
+)
+GOTO :EOF
+
+:START1
+SET /a STORY29VERSIONNUM = 1
+SET MAP=hell1
+SET /a PLAYERXCOORD = 1
+SET /a PLAYERYCOORD = 1
+SET /a EXITMAP = 1
+GOTO :EOF
+
+:SETLOCATION
+SET /a PLAYERXCOORD = %PLAYEROLDXCOORD%
+SET /a PLAYERYCOORD = %PLAYEROLDYCOORD%
+GOTO :EOF
+
+
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

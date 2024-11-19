@@ -1,0 +1,9 @@
+@ECHO OFF
+TITLE MUSIC
+CD /d %MUSICPATH%
+:REPLAY
+cmdmp3 "%TEMPPATH%\%FILE%" > nul
+IF %LOOP% EQU 1 (
+	GOTO :REPLAY
+)
+exit

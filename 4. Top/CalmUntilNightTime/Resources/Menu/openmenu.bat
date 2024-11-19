@@ -1,0 +1,182 @@
+:MENUSCREEN
+CALL "%MENURESOURCEPATH%\menudisplay.bat"
+ECHO %MENUNAME%: Hey %PLAYERNAME%, what would you like to look at? You currently have %PLAYERGIL% gil
+ECHO.
+ECHO. 1 - Inventory
+ECHO. 2 - Equipment
+ECHO. 3 - Character details
+ECHO. 4 - Details of enemies I've caught
+ECHO. 5 - Records
+ECHO. 6 - Story Review
+ECHO. 7 - Spells, Skills and Limit Break Bonus
+ECHO. 8 - Save my game
+ECHO. 9 - Exit to main menu
+IF %REMOTEACCESSTRUE% EQU 1 (
+	ECHO. 10 - Use my remote access
+)
+IF /I %MAP% EQU TOWN1 (
+	ECHO. S - Skip to the next town - Exit entire tutorial
+)
+ECHO. 0 - Close the menu
+ECHO.
+SET /P MENUCHOICE=
+ECHO.
+IF "%MENUCHOICE%" EQU "1" (
+	CALL "%MENURESOURCEPATH%\inventorychoose.bat"
+) ELSE IF "%MENUCHOICE%" EQU "2" (
+	CALL "%MENURESOURCEPATH%\equipment.bat"
+) ELSE IF "%MENUCHOICE%" EQU "3" (
+	CALL "%MENURESOURCEPATH%\chardetails.bat"
+) ELSE IF "%MENUCHOICE%" EQU "4" (
+	CALL "%MENURESOURCEPATH%\catchrecord.bat"
+) ELSE IF "%MENUCHOICE%" EQU "5" (
+	CALL "%MENURESOURCEPATH%\records.bat"
+) ELSE IF "%MENUCHOICE%" EQU "6" (
+	CALL "%MENURESOURCEPATH%\menustory.bat"
+) ELSE IF "%MENUCHOICE%" EQU "7" (
+	CALL "%MENURESOURCEPATH%\spellsandskills.bat"
+) ELSE IF "%MENUCHOICE%" EQU "8" (
+	SET /a QUICKSAVE = 0
+	CALL "%MENURESOURCEPATH%\savegame.bat"
+) ELSE IF "%MENUCHOICE%" EQU "9" (
+	CALL :EXITQUERY
+) ELSE IF "%MENUCHOICE%" EQU "10" (
+	IF %REMOTEACCESSTRUE% EQU 1 (
+		CALL "%MENURESOURCEPATH%\remoteaccess.bat"
+	) ELSE (
+		ECHO %MENUNAME%: We'll try that again shall we?
+		CALL :WAITFORTWO
+		GOTO :MENUSCREEN 
+	)
+) ELSE IF "%MENUCHOICE%" EQU "0" (
+	GOTO :EOF
+) ELSE IF /I "%MENUCHOICE%" EQU "S" (
+	IF /I %MAP% EQU TOWN1 (
+		CALL :SKIP
+		IF !SKIP! EQU 1 (
+			SET /a SKIP = 0
+			GOTO :EOF
+		)
+	)
+) ELSE (
+	ECHO %MENUNAME%: We'll try that again shall we?
+	CALL :WAITFORTWO
+	GOTO :MENUSCREEN
+)
+CLS
+IF %MAINMENUBACK% EQU 1 (
+	GOTO :EOF
+)
+GOTO :MENUSCREEN
+
+:SKIP
+SET /a SKIP = 0
+CALL "%MENURESOURCEPATH%\menudisplay.bat"
+ECHO %MENUNAME%: Are you sure? You'll miss out on some story
+ECHO.
+ECHO. 1 - Yes
+ECHO. 0 - Actually, no
+ECHO.
+SET /P CHOICE=
+IF "%CHOICE%" EQU "1" (
+	CALL :SKIPTRUE
+) ELSE IF "%CHOICE%" EQU "0" (
+	GOTO :EOF
+) ELSE (
+	GOTO :SKIP
+)
+GOTO :EOF
+
+:SKIPTRUE
+SET MAP=town2
+SET /a PLAYERXCOORD = 7
+SET /a PLAYERYCOORD = 2
+::This is to make it re-load the map
+SET /a MENUACCESSED = 0
+SET /a EXITMAP = 1
+::This is to make it come out of the menu
+SET /a SKIP = 1
+::SET /a MAINMENUBACK = 1
+::Items from the chest
+SET /a PLAYERWEAPON%CBONEID%NUM = 1
+SET /a PLAYERWEAPON%KTAPEID%NUM = 1
+::Items from McPriest
+IF /I %DIFFICULTY% EQU EASY (
+	SET /a PLAYERITEM%POTID%NUM = 6
+	SET /a PLAYERITEM%FIRAITEMID%NUM = 3
+) ELSE (
+	SET /a PLAYERITEM%POTID%NUM = 3
+	SET /a PLAYERITEM%WATERITEMID%NUM = 2
+)
+::YT Caught
+SET /a ENEMY1CAUGHT = 1
+::Hometownquestphase
+SET /a HOMETOWNQUESTPHASE = 7
+::Story
+SET /a STORY1VERSIONNUM = 1
+SET /a STORY2VERSIONNUM = 1
+SET /a STORY3VERSIONNUM = 1
+SET /a STORY4VERSIONNUM = 1
+SET /a STORY5VERSIONNUM = 1
+::If level is 1 then Level up
+IF %PLAYERLVL% EQU 1 (
+	CALL :LEVELUP
+)
+GOTO :EOF
+
+:LEVELUP
+SET /a PLAYERITEM%ETHID%NUM = 1
+SET /a PLAYERITEM%XPOTID%NUM = 1
+SET /a PLAYERARMOUR%MORPHSUITID%NUM = 1
+SET /a PLAYERACCESSORY%SPRSHOESID%NUM = 1
+SET /a PLAYERGIL = %PLAYERGIL% + 100
+SET /a EXP = %EXP% + 412
+SET /a PLAYERLEVELUPNUM = 2
+CALL "%BATTLEENDRESOURCEPATH%\levelup.bat"
+GOTO :EOF
+
+:EXITQUERY
+CALL "%MENURESOURCEPATH%\menudisplay.bat"
+ECHO %MENUNAME%: Are you sure you want to leave? You'll lose any unsaved progress
+ECHO.
+ECHO. 1 - Yep, let's go^^!
+ECHO. 0 - Woah, noooooooo
+:CHOICE
+ECHO.
+SET /P MAINMENUBACK=
+ECHO.
+IF "%MAINMENUBACK%" EQU "0" (
+	GOTO :EOF
+)
+IF "%MAINMENUBACK%" EQU "1" (
+	ECHO SET /a MINIGAMEGILREWARD = 0 > "%MINIGAMERESOURCEPATH%\rewards.bat"
+	CALL "%MUSICPATH%\stopmusic.bat"
+	GOTO :EOF
+) ELSE (
+	ECHO %MENUNAME%: Oi^^! This is serious^^!
+	ECHO.
+	CALL :WAITFORTWO
+	GOTO :CHOICE
+)
+GOTO :EOF
+
+
+
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

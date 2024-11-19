@@ -1,0 +1,125 @@
+IF %AUTOBATTLE% EQU 1 (
+	SET WAITTIME=ZERO
+) ELSE (
+	SET WAITTIME=ONE
+)
+:ATTEMPTCATCH
+CALL "%BATTLEDISPLAYRESOURCEPATH%\battledisplay.bat"
+CALL "%BATTLERESOURCEPATH%\ranresources.bat"
+SET /a PERC = %ENEMYHP%*100/%ENEMYMAXHP%
+SET /a CATCHCHANCE = (10000*%PLAYERSPD%)/(%PLAYERLVL%*%PERC%*%PERC%)
+IF %PLAYERINCCATCH% EQU 1 (
+	SET /a CATCHCHANCE = %CATCHCHANCE%*4
+)
+IF %RANPERC% LEQ %CATCHCHANCE% (	
+	CALL :CATCHSUCCESS
+) ELSE (
+	CALL :CATCHFAIL
+)
+GOTO :EOF
+
+:CATCHSUCCESS
+ECHO Attempting to catch...
+ECHO.
+CALL :WAITFOR%WAITTIME%
+ECHO ...
+ECHO.
+CALL :WAITFOR%WAITTIME%
+ECHO ...
+ECHO.
+CALL :WAITFOR%WAITTIME%
+SET TEMPPATH=%MUSICPATH%\Battle\Win
+SET /a STOP = 1
+SET /a LOOP = 1
+CALL "%MUSICPATH%\startmusic.bat"
+CALL :CATCHDISPLAY
+SET /a ENEMY%ENEMYID%CAUGHT=1
+SET /a BATTLECAUGHT = 1
+SET /a CATCHSUCCESSCOUNT = %CATCHSUCCESSCOUNT% + 1
+CALL :EXP
+CALL :QUERYLEVELUP
+GOTO :EOF
+
+:EXP
+SET /a PLAYEROLDLVL = (%EXP%/200)+1
+SET /a EXP = %EXP% + %GAINEDEXP%
+SET /a PLAYERNEWLVL = (%EXP%/200)+1
+SET /a PLAYERLEVELUPNUM = %PLAYERNEWLVL% - %PLAYEROLDLVL%
+GOTO :EOF
+
+:CATCHDISPLAY
+CALL "%MENURESOURCEPATH%\menudisplay.bat"
+ECHO %MENUNAME%: Woohoo^^! You caught the %ENEMYNAME%^^!
+ECHO.
+ECHO         You can now fight the %ENEMYNAME% in training and you'll
+ECHO         be able to use Scan or Detect when you fight one in future^^!
+ECHO.
+IF %PLAYERDOUBLEEXP% EQU 1 (
+	SET /a GAINEDEXP = %GAINEDEXP%*2
+)
+ECHO         You have also gained %GAINEDEXP% EXP^^!
+ECHO.
+ECHO         You can also see a lot of detail on this enemy through the menu.
+ECHO         Let's have a look at that now shall we darlin'
+ECHO.
+SET /a CHOICE = %ENEMYID%
+CALL "%MENURESOURCEPATH%\caughtdisplay.bat
+GOTO :EOF
+
+
+:QUERYLEVELUP
+IF %PLAYERLEVELUPNUM% EQU 0 (
+	GOTO :EOF
+)
+CALL "%BATTLEENDRESOURCEPATH%\levelup.bat"
+GOTO :EOF
+
+:CATCHFAIL
+ECHO Attempting to catch...
+ECHO.
+CALL :WAITFOR%WAITTIME%
+ECHO ...
+ECHO.
+CALL :WAITFOR%WAITTIME%
+ECHO ...
+ECHO.
+CALL :WAITFOR%WAITTIME%
+ECHO You ran around for quite some time trying to catch the %ENEMYNAME%
+ECHO but you weren't fast enough!
+ECHO.
+CALL :ENEMYRUNQUERY
+GOTO :EOF
+
+:ENEMYRUNQUERY
+CALL :WAITFOR%WAITTIME%
+SET /a PERC = %ENEMYHP%*100/%ENEMYMAXHP%
+CALL "%BATTLERESOURCEPATH%\ranresources.bat"
+IF %PERC% GTR %RANPERC% (
+	ECHO The %ENEMYNAME% was not scared by your capture attempt	
+	ECHO.
+	GOTO :EOF
+) ELSE (
+	ECHO You looked like a bit of a tool and the %ENEMYNAME% ran away!
+	ECHO.
+	pause
+	SET /a ENEMYRUN = 1
+)
+GOTO :EOF
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

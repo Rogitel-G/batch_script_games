@@ -1,0 +1,1 @@
+SET /a %TARGET%END = !%TARGET%END!*2

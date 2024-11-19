@@ -1,0 +1,13 @@
+::Needs %TARGET%,%HEAL%
+SET /a RANFACT = (%RANDOM% %% 40) + 80
+SET /a HEAL = (%HEAL%*100)/%RANFACT%
+IF %HEAL% LSS 1 (
+	SET /a HEAL = 1
+)
+SET /a %TARGET%HP = !%TARGET%HP! + %HEAL%
+IF !%TARGET%HP! GTR !%TARGET%MAXHP! (
+	SET /a %TARGET%HP = !%TARGET%MAXHP!
+)
+ECHO !%TARGET%NAME! was healed by %HEAL% HP
+ECHO.
+TIMEOUT /T 2 > nul

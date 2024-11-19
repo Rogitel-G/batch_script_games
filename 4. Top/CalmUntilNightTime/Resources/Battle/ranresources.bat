@@ -1,0 +1,32 @@
+
+:RANFACTOR
+REM GENERATES A RANDOM NUMBER BETWEEN 80 and 120
+set /a RANFACT=((%random%*40)/32767)+80
+set /a RANFACT=((%random%*40)/32767)+80
+
+
+:RANSLASH
+set /a RANSLASH=((%random%*20)/32767)+1
+set /a RANSLASH=((%random%*20)/32767)+1
+
+
+:RANPERCENT
+REM GENERATES A RANDOM NUMBER BETWEEN 1 and 100
+set /a RANPERC=((%random%*99)/32767)+1
+set /a RANPERC=((%random%*99)/32767)+1
+
+:BATTLERAN
+REM GENERATES A RANDOM NUMBER BETWEEN 1 and 8
+set /a BATTLERAN=((%random%*7)/32767)+1
+set /a BATTLERAN=((%random%*7)/32767)+1
+
+:MENURAN
+REM GENERATES A RANDOM NUMBER BETWEEN 1 and 2
+set /a MENURAN=((%random%*2)/32767)+1
+set /a MENURAN=((%random%*2)/32767)+1
+
+:RANREGENCOUNT
+set /a REGENCOUNT=((%random%*3)/32767)+3
+set /a REGENCOUNT=((%random%*3)/32767)+3
+
+GOTO :EOF

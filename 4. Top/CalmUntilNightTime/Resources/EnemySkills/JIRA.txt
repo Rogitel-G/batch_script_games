@@ -1,0 +1,34 @@
+::RAB
+::MULEKICK
+::ENEMYFOC
+::NECKWHIP
+::STEALLIFE
+::CHEW
+::TROLLSMASH
+::QUACKATTACK
+::PILEDRIVER
+::VAMBITE
+::CHARGE
+::CHOMP
+::STEALOX
+::ENEMYQATTACK
+::SMASH
+::FLY
+::WMD
+::SUBOMB
+::GASCHAM
+::DEATHRAY
+::ENEMYTHROWGIL
+::STLPRIN
+BANDITMUG
+
+SHOPKEEPER5
+LEPRECHAUN
+ALCHEMISTMONS
+RAGATA
+
+Dwarf Mine
+Remove Super Saiyan
+Add hints
+Regulate volume of sounds
+Add songs stopping and starting at better times

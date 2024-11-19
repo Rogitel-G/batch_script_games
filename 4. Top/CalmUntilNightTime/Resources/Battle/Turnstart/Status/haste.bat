@@ -1,0 +1,1 @@
+SET /a %TARGET%SPD = !%TARGET%SPD!*25

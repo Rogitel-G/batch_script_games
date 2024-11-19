@@ -1,0 +1,43 @@
+CALL "%MENURESOURCEPATH%\menudisplay.bat"
+ECHO %MENUNAME%: What Equipment would you like to manage?
+ECHO.
+ECHO. 1 - Weapons
+ECHO. 2 - Armour
+ECHO. 3 - Accessories
+ECHO. 0 - Back
+ECHO.
+:EQUIPMENTCHOICE
+SET /P EQUIPTYPECHOICE=
+ECHO.
+IF "%EQUIPTYPECHOICE%" EQU "1" (
+	SET TYPE=weapon
+	CALL "%MENURESOURCEPATH%\adjustequipment.bat"
+) ELSE IF "%EQUIPTYPECHOICE%" EQU "2" (
+	SET TYPE=armour
+	CALL "%MENURESOURCEPATH%\adjustequipment.bat"
+) ELSE IF "%EQUIPTYPECHOICE%" EQU "3" (
+	SET TYPE=accessory
+	CALL "%MENURESOURCEPATH%\adjustequipment.bat"
+) ELSE IF "%EQUIPTYPECHOICE%" EQU "0" (
+	GOTO :EOF
+) ELSE (
+	GOTO :EQUIPMENTCHOICE
+)
+GOTO :EOF
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

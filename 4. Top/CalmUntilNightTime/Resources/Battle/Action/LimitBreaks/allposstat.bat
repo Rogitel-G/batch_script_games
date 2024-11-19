@@ -1,0 +1,16 @@
+SET /a PLAYERMED = 1
+SET /a PLAYERFOC = 1
+SET /a PLAYERHIDE = 1
+SET /a PLAYERAIM = 1
+SET /a PLAYERPROTECT = 1
+SET /a PLAYERPROTECTTURNCOUNT = 2
+SET /a PLAYERSHELL = 1
+SET /a PLAYERSHELLTURNCOUNT = 2
+SET /a PLAYERHASTE = 1
+SET /a PLAYERHASTETURNCOUNT = 2
+IF %EXPLICIT% EQU 1 (
+	ECHO Using !LIMITBREAK%LIMITCOUNT%NAME! you have given yourself a shit load of positive statuses
+) ELSE (
+	ECHO Using !LIMITBREAK%LIMITCOUNT%NAME! you have given yourself a shed load of positive statuses
+)
+TIMEOUT /T 2 > nul

@@ -1,0 +1,67 @@
+IF %REMOTEACCESS% EQU 0 (
+	CALL :SETLOCATION
+) ELSE (
+	SET /a REMOTEACCESS = 0
+)
+SET /a STORY19VERSIONNUM = 2
+IF %BLACKSMITHWELCOMESEEN% EQU 0 (
+	CALL "%BLACKSMITHRESOURCEPATH%\blacksmithwelcome.bat"
+)
+:BLACKSMITHWELCOME
+CALL "%BLACKSMITHRESOURCEPATH%\blacksmithdisplay.bat"
+ECHO.
+ECHO %BLACKSMITHNAME%: Orite laddie, how can I help ya?
+ECHO.
+ECHO. 1 - I'd like to customise my weapons
+ECHO. 2 - I'd like to customise my armour
+ECHO. 3 - I'd like to customise my accessories
+ECHO. 4 - I'd like to salvage my items from my custom equipment
+ECHO. 5 - Can you explain something for me?
+ECHO. 0 - I'll be off now
+ECHO.
+:BLACKSMITHCHOICE
+SET /P BLACKSMITHCHOICE=
+ECHO.
+IF "%BLACKSMITHCHOICE%" EQU "1" (
+	CALL "%BLACKSMITHRESOURCEPATH%\customiseweapon.bat"
+) ELSE IF "%BLACKSMITHCHOICE%" EQU "2" (
+	CALL "%BLACKSMITHRESOURCEPATH%\customisearmour.bat"
+) ELSE IF "%BLACKSMITHCHOICE%" EQU "3" (
+	CALL "%BLACKSMITHRESOURCEPATH%\customiseaccessory.bat"
+) ELSE IF "%BLACKSMITHCHOICE%" EQU "4" (
+	CALL "%BLACKSMITHRESOURCEPATH%\salvageequipment.bat"
+) ELSE IF "%BLACKSMITHCHOICE%" EQU "5" (
+	CALL "%BLACKSMITHRESOURCEPATH%\explainblacksmith.bat"
+) ELSE IF "%BLACKSMITHCHOICE%" EQU "0" (
+	CALL "%REMOTERESOURCEPATH%\blacksmith.bat"
+	GOTO :EOF
+) ELSE (
+	GOTO :BLACKSMITHCHOICE
+)
+GOTO :BLACKSMITHWELCOME
+
+
+:SETLOCATION
+SET /a PLAYERXCOORD = 6
+SET /a PLAYERYCOORD = 5
+GOTO :EOF
+
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF
+

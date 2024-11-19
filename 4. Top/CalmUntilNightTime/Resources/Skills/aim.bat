@@ -1,0 +1,25 @@
+ECHO %PLAYERNAME% takes aim and is guarateed to hit until it wears off
+ECHO.
+CALL :WAITFORTWO
+SET /a PLAYERAIM = 1
+GOTO :EOF
+
+
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

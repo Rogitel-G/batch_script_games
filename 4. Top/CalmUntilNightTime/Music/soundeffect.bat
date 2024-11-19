@@ -1,0 +1,9 @@
+IF "%TEMPPATH%" EQU "%MUSICPATH%\Swear" (
+	GOTO :SKIP
+)
+IF %SFXENABLED% EQU 0 (
+	GOTO :EOF
+)
+:SKIP
+SET /a LOOP = 0
+START /min "" "%MUSICPATH%\powershell.bat"

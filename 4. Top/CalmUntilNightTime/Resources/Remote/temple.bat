@@ -1,0 +1,12 @@
+IF %TEMPLEREMOTEACCESS% EQU 1 (
+	GOTO :EOF
+)
+SET /a THRESHOLD = 4000
+IF %PLAYERTEMPLEDONATIONTOTAL% GEQ %THRESHOLD% (
+	CALL "%MENURESOURCEPATH%\menudisplay.bat"
+	ECHO You've donated %THRESHOLD% to the temple, and can now access it remotely from the menu^^!
+	ECHO.
+	SET /a REMOTEACCESSTRUE = 1
+	SET /a TEMPLEREMOTEACCESS = 1
+	TIMEOUT /T 3 > nul
+)

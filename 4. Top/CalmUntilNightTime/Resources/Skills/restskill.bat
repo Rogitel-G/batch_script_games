@@ -1,0 +1,5 @@
+SET /a PLAYERHP = %PLAYERMAXHP%
+SET /a PLAYERSLEEP = 1
+SET /a PLAYERSLEEPTURNCOUNT = (%RANDOM% %% 3) + 2
+ECHO %PLAYERNAME%'s HP has been fully restored, they will sleep for %PLAYERSLEEPTURNCOUNT% turns
+ECHO.

@@ -1,0 +1,319 @@
+:SHOPCHAT
+CALL :WAITFORONE
+ECHO.
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: Well I can see that, it was more of a polite greeting than a statement of fact
+ECHO.
+:SHOPCHAT1
+CALL :WAITFORTWO
+ECHO. 1 - Gotcha, let's see what you've got
+ECHO. 2 - Right you are then old bean, may I please take a gander at your fine wears?
+ECHO. 3 - Right... Can I buy something?
+ECHO. 4 - Keep your pleasentries to yourself, I didn't come here for the manners.
+ECHO. 5 - I'm actually a woman
+ECHO. 0 - Ha-ha-ha-ha-haaah... Forget I said anything
+ECHO. 
+SET /P SHOPCHAT1CHOICE=
+ECHO.
+IF "%SHOPCHAT1CHOICE%" EQU "1" (
+	CALL :SHOPCHAT11
+) ELSE IF "%SHOPCHAT1CHOICE%" EQU "2" (
+	CALL :SHOPCHAT12
+) ELSE IF "%SHOPCHAT1CHOICE%" EQU "3" (
+	CALL :SHOPCHAT13
+) ELSE IF "%SHOPCHAT1CHOICE%" EQU "4" (
+	CALL :SHOPCHAT14
+) ELSE IF "%SHOPCHAT1CHOICE%" EQU "5" (
+	CALL :SHOPCHAT15
+) ELSE IF "%SHOPCHAT1CHOICE%" EQU "0" (
+	SET /a PLAYERXCOORD = 3
+	SET /a PLAYERYCOORD = 6
+	SET /a SHOPWITHINBACK = 1
+) ELSE (
+ECHO ...
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: Pardon?
+ECHO.
+CALL :WAITFORONE
+GOTO :SHOPCHAT1
+)
+GOTO :EOF
+
+:SHOPCHAT11
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: Items, Weapons or Armour?
+ECHO.
+ECHO. 1 - Rock
+ECHO. 2 - Paper
+ECHO. 3 - Scissors
+ECHO.
+SET /P SHOPCHAT11CHOICE=
+ECHO.
+IF "%SHOPCHAT11CHOICE%" EQU "1" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: I'll assume you meant Items...
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\itemshop.bat"
+) ELSE IF "%SHOPCHAT11CHOICE%" EQU "2" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: I'll assume you meant Weapons...
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\weaponshop.bat"
+) ELSE IF "%SHOPCHAT11CHOICE%" EQU "3" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: I'll assume you meant Armour...
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\armourshop.bat"
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT11
+)
+GOTO :EOF
+
+:SHOPCHAT12
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: No need to be a dick
+ECHO.
+ECHO. 1 - Sorry, can I look at your Items
+ECHO. 2 - Sorry, can I look at your Weapons
+ECHO. 3 - Sorry, can I look at your Armour
+ECHO. 4 - That's how I roll holmes!
+ECHO.
+SET /P SHOPCHAT21CHOICE=
+ECHO.
+IF "%SHOPCHAT21CHOICE%" EQU "1" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: You're forgiven
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\itemshop.bat"
+) ELSE IF "%SHOPCHAT21CHOICE%" EQU "2" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: You're forgiven
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\weaponshop.bat"
+) ELSE IF "%SHOPCHAT21CHOICE%" EQU "3" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: You're forgiven
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\armourshop.bat"
+) ELSE IF "%SHOPCHAT21CHOICE%" EQU "4" (
+	CALL :SHOPCHAT124
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT12
+)
+GOTO :EOF
+
+:SHOPCHAT124
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: If you keep that up I'll roll my fist into your face. 
+CALL :WAITFORTWO
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: Holmes.
+CALL :WAITFORONE
+ECHO.
+ECHO. 1 - Bring it on rim raider
+ECHO. 2 - I'm just kidding, can I buy something now?
+ECHO.
+SET /P SHOPCHAT112CHOICE=
+ECHO.
+IF "%SHOPCHAT112CHOICE%" EQU "1" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: You'll regret this kid
+	ECHO.
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\shopkeeperfight.bat"
+) ELSE IF "%SHOPCHAT112CHOICE%" EQU "2" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: You're forgiven
+	CALL :WAITFORTWO
+	CALL :SHOPCHAT11
+) ELSE (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: What was that? Cat got your tongue?
+	ECHO.
+	CALL :WAITFORTWO
+	GOTO :SHOPCHAT124
+)
+GOTO :EOF
+
+:SHOPCHAT13
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: Items, Weapons or Armour?
+ECHO.
+ECHO. 1 - Items
+ECHO. 2 - Weapons
+ECHO. 3 - Armour
+ECHO.
+SET /P SHOPCHAT13CHOICE=
+ECHO.
+IF "%SHOPCHAT13CHOICE%" EQU "1" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Right-oh Joe!
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\itemshop.bat"
+) ELSE IF "%SHOPCHAT13CHOICE%" EQU "2" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Your wish is my command...to an extent
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\weaponshop.bat"
+) ELSE IF "%SHOPCHAT13CHOICE%" EQU "3" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Yes Armour, not ARMOR
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\armourshop.bat"
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT13
+)
+GOTO :EOF
+
+:SHOPCHAT14
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: You spelt pleasantries wrong...
+ECHO.
+ECHO. 1 - Jesus Christ, can I just buy something?
+ECHO. 2 - What are you talking about? I'm speaking to you, not writing it down
+ECHO. 3 - ARGHHHHH. LEEROYYY JENNKIINNNSSSS
+ECHO.
+SET /P SHOPCHAT14CHOICE=
+ECHO.
+IF "%SHOPCHAT14CHOICE%" EQU "1" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Of course
+	CALL :WAITFORONE
+	ECHO.
+	ECHO ...idiot
+	ECHO.
+	CALL :WAITFORONE
+	GOTO :SHOPCHAT14
+) ELSE IF "%SHOPCHAT14CHOICE%" EQU "2" (
+	CALL :SHOPCHAT142
+) ELSE IF "%SHOPCHAT14CHOICE%" EQU "3" (
+	ECHO.
+	CALL "%SHOPRESOURCEPATH%\shopkeeperfight.bat"
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT14
+)
+GOTO :EOF
+
+:SHOPCHAT142
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: You heros are all alike, the game's not that immersive
+ECHO.
+ECHO. 1 - YOU SPELT HEROES WRONGGGG
+ECHO. 2 - Can I just buy something?
+ECHO. 3 - I'm getting a bit sick of this now, I'm leaving
+ECHO.
+SET /P SHOPCHAT142CHOICE=
+ECHO.
+IF "%SHOPCHAT142CHOICE%" EQU "1" (
+	CALL :WAITFORONE
+	CALL :SHOPCHAT1421
+) ELSE IF "%SHOPCHAT142CHOICE%" EQU "2" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Please do, I'm not getting any younger
+	ECHO.
+	CALL :WAITFORONE
+	GOTO :SHOPCHAT14
+) ELSE IF "%SHOPCHAT142CHOICE%" EQU "3" (
+	ECHO.
+	CALL :WAITFORONE
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Fine by me you prick
+	CALL :WAITFORTWO
+	SET /a PLAYERXCOORD = 3
+	SET /a PLAYERYCOORD = 6
+	SET /a SHOPBACK = 1
+	GOTO :EOF
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT142
+)
+GOTO :EOF
+
+
+:SHOPCHAT1421
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: I thought we were talking? Look, the ultimate end of this litte
+ECHO 	    back and forth is that you either buy something, leave or fight me.
+CALL :WAITFORTWO
+ECHO		    Which is it?
+CALL :WAITFORONE
+ECHO.
+ECHO. 1 - I'll buy something
+ECHO. 2 - I'm going
+ECHO. 3 - I'm going to kick your cocky ass
+ECHO.
+SET /P SHOPCHAT1421CHOICE=
+ECHO.
+IF "%SHOPCHAT1421CHOICE%" EQU "1" (
+	CALL :WAITFORONE
+	CALL :SHOPCHAT13
+) ELSE IF "%SHOPCHAT1421CHOICE%" EQU "2" (
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Please do, I'm not getting any younger
+	ECHO.
+	CALL :WAITFORONE
+	ECHO         Don't let the door hit your arse on the way out
+	ECHO.
+	CALL :WAITFORONE
+	ECHO         ...Jackass
+	pause
+	GOTO :EOF
+) ELSE IF "%SHOPCHAT1421CHOICE%" EQU "3" (
+	ECHO.
+	CALL :WAITFORONE
+	ECHO !SHOPKEEPER%SHOPNUM%NAME!: Game on.
+	ECHO.
+	CALL :WAITFORTWO
+	CALL "%SHOPRESOURCEPATH%\shopkeeperfight.bat"
+	GOTO :EOF
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT1421
+)
+GOTO :EOF
+
+
+:SHOPCHAT15
+CALL :WAITFORONE
+ECHO !SHOPKEEPER%SHOPNUM%NAME!: No you're not
+CALL :WAITFORONE
+ECHO.
+REM TODO
+pause
+GOTO :EOF
+ECHO. 1 - 
+ECHO. 2 - 
+ECHO. 3 - 
+ECHO.
+SET /P SHOPCHAT15CHOICE=
+ECHO.
+IF "%SHOPCHAT15CHOICE%" EQU "1" (
+	
+) ELSE IF "%SHOPCHAT15CHOICE%" EQU "2" (
+	
+) ELSE IF "%SHOPCHAT15CHOICE%" EQU "3" (
+	
+) ELSE (
+	ECHO No.
+	GOTO :SHOPCHAT15
+)
+GOTO :EOF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

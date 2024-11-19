@@ -1,0 +1,36 @@
+ECHO %PLAYERNAME% enters a fit of drug fuelled rage
+ECHO.
+CALL :WAITFORTWO
+ECHO Your Strength, Magic, Accuracy and Evasion have increased
+ECHO but you are Poisoned and Slowed down by the drugs
+ECHO.
+CALL :WAITFORTHREE
+SET /a PLAYERMED = 1
+SET /a PLAYERFOC = 1
+SET /a PLAYERAIM = 1
+SET /a PLAYERHIDE = 1
+SET /a PLAYERSLOW = 1
+SET /a PLAYERPOISON = 1
+SET /a PLAYERSLOWTURNCOUNT = 4
+SET /a PLAYERPOISONTURNCOUNT = 4
+GOTO :EOF
+
+
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF

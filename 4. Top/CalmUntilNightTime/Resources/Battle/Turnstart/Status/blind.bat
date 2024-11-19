@@ -1,0 +1,1 @@
+SET /a %TARGET%ACC = !%TARGET%ACC!/2

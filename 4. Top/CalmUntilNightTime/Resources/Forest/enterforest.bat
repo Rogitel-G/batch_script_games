@@ -1,0 +1,22 @@
+IF %SEAKINGALIVE% EQU 1 (
+	CALL :DISPLAY
+) ELSE (
+	SET /a STORY24VERSIONNUM = 1
+	SET MAP=FOREST1MIST0
+	SET /a PLAYERXCOORD = 1
+	SET /a PLAYERYCOORD = 1
+)
+SET /a EXITMAP = 1
+GOTO :EOF
+
+
+:DISPLAY
+SET MAP=FOREST1MIST1
+SET /a STORY20VERSIONNUM = 1
+CLS
+ECHO.
+ECHO You enter the forest, but it's covered in mist^^!
+ECHO.
+ECHO You'll need to find a way out as soon as possible
+TIMEOUT /T 3 > nul
+GOTO :EOF

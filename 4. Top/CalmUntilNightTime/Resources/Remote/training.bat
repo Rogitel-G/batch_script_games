@@ -1,0 +1,22 @@
+IF %TRAININGREMOTEACCESS% EQU 1 (
+	GOTO :EOF
+)
+SET /a THRESHOLD = 4
+SET /a COUNT = 0
+SET /a CAUGHTCOUNT = 0
+:LOOP
+SET /a COUNT = %COUNT% + 1
+IF !ENEMY%COUNT%CAUGHT! EQU 1 (
+	SET /a CAUGHTCOUNT = %CAUGHTCOUNT% + 1
+)
+IF %COUNT% LSS %ENEMYTOT% (
+	GOTO :LOOP
+)
+IF %CAUGHTCOUNT% GEQ %THRESHOLD% (
+	CALL "%MENURESOURCEPATH%\menudisplay.bat"
+	ECHO You have caught %THRESHOLD% enemies, you can now access the training centre remotely from the menu^^!
+	ECHO.
+	SET /a REMOTEACCESSTRUE = 1
+	SET /a TRAININGREMOTEACCESS = 1
+	TIMEOUT /T 3 > nul
+)

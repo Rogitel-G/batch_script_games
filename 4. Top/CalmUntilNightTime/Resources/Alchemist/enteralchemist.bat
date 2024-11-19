@@ -1,0 +1,119 @@
+IF %REMOTEACCESS% EQU 0 (
+	CALL :SETLOCATION
+) ELSE (
+	SET /a REMOTEACCESS = 0
+)
+SET /a TEMPEND = %ALCHEMISTMON6ID%
+SET /a ENEMYID = %ALCHEMISTMON1ID% - 1
+:BOSSLOOP
+SET /a ENEMYID = %ENEMYID% + 1
+IF NOT DEFINED ENEMY%ENEMYID%LOADED (
+	SET /a ENEMY%ENEMYID%LOADED = 1
+	CALL "%MISCRESOURCEPATH%\loadenemy.bat"
+)
+IF %ENEMYID% LSS %TEMPEND% (
+	GOTO :BOSSLOOP
+)
+SET /a STORY22VERSIONNUM = 2
+IF %ALCHEMISTWELCOMESEEN% EQU 0 (
+	CALL "%ALCHEMISTRESOURCEPATH%\alchemistwelcome.bat"
+)
+:ALCHEMISTWELCOME
+CALL "%ALCHEMISTRESOURCEPATH%\alchemistdisplay.bat"
+ECHO.
+ECHO %ALCHEMISTNAME%: Hi there, what can I do for you?
+ECHO.
+ECHO. 1 - I'd like to create some items
+ECHO. 2 - I'd like to combine items
+IF %ALCHEMYBATTLESEXPLAINED% EQU 0 (
+	ECHO. 3 - Why do you keep those horrific looking things in cages^^!?
+) ELSE (
+	ECHO. 3 - Can I fight your caged beasts?
+)
+ECHO. 4 - Can you explain the services you offer
+IF %BEATALCHEMISTMON4% EQU 1 (
+	ECHO. 5 - I need some alchemy ingredients
+)
+ECHO. 0 - I'll be off now
+ECHO.
+:ALCHEMISTCHOICE
+SET /P ALCHEMISTCHOICE=
+ECHO.
+IF "%ALCHEMISTCHOICE%" EQU "1" (
+	CALL "%ALCHEMISTRESOURCEPATH%\createitem.bat"
+) ELSE IF "%ALCHEMISTCHOICE%" EQU "2" (
+	CALL "%ALCHEMISTRESOURCEPATH%\combineitems.bat"
+) ELSE IF "%ALCHEMISTCHOICE%" EQU "3" (
+	IF %ALCHEMYBATTLESEXPLAINED% EQU 0 (
+		CALL :EXPLAINBATTLES
+	) ELSE IF %BEATALCHEMISTMON6% EQU 1 (
+		ECHO %ALCHEMISTNAME%: There are no more challenges for you to complete
+		ECHO.
+		CALL :WAITFORTHREE
+	) ELSE (
+		ECHO %ALCHEMISTNAME%: Of course you can good sir
+		ECHO.
+		CALL :WAITFORTHREE
+		CALL "%ALCHEMISTRESOURCEPATH%\alchemistbattles.bat"
+	)
+) ELSE IF "%ALCHEMISTCHOICE%" EQU "4" (
+	CALL "%ALCHEMISTRESOURCEPATH%\explainalchemy.bat"
+) ELSE IF "%ALCHEMISTCHOICE%" EQU "5" (
+	IF %BEATALCHEMISTMON4% EQU 1 (
+		CALL "%ALCHEMISTRESOURCEPATH%\alchemistshop.bat"
+	) ELSE (
+		GOTO :ALCHEMISTCHOICE
+	)
+) ELSE IF "%ALCHEMISTCHOICE%" EQU "0" (
+	GOTO :EOF
+) ELSE (
+	GOTO :ALCHEMISTCHOICE
+)
+GOTO :ALCHEMISTWELCOME
+
+
+:EXPLAINBATTLES
+SET /a ALCHEMYBATTLESEXPLAINED = 1
+CALL "%ALCHEMISTRESOURCEPATH%\alchemistdisplay.bat"
+ECHO.
+ECHO %ALCHEMISTNAME%: They're sort of a test for people that I plan to combine items for
+ECHO.
+CALL :WAITFORTWO
+ECHO %ALCHEMISTSPACES%  At the moment I'll only let you combine two items together.
+ECHO.
+CALL :WAITFORTWO
+ECHO %ALCHEMISTSPACES%  If you can manage to beat my first challenge then I'll let you combine 3
+ECHO.
+CALL :WAITFORTWO
+ECHO %ALCHEMISTSPACES%  Beat more of them and you'll unlock more things.
+ECHO.
+pause
+GOTO :EOF
+
+:SETLOCATION
+SET /a PLAYERXCOORD = 6
+SET /a PLAYERYCOORD = 4
+GOTO :EOF
+
+
+
+
+
+
+
+:WAITFORZERO
+TIMEOUT /T 0 > nul
+GOTO :EOF
+
+:WAITFORONE
+TIMEOUT /T 1 > nul
+GOTO :EOF
+
+:WAITFORTWO
+TIMEOUT /T 2 > nul
+GOTO :EOF
+
+:WAITFORTHREE
+TIMEOUT /T 3 > nul
+GOTO :EOF
+

@@ -1,0 +1,5 @@
+CALL "%INITIALRESOURCEPATH%\offspellstats.bat"
+CALL "%INITIALRESOURCEPATH%\statspellstats.bat"
+REM CALL "%INITIALRESOURCEPATH%\debspellstats.bat"
+CALL "%INITIALRESOURCEPATH%\restspellstats.bat"
+CALL "%INITIALRESOURCEPATH%\suppspellstats.bat"
